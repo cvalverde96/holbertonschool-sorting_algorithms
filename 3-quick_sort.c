@@ -3,7 +3,7 @@
 void swap(int *a, int *b);
 void printArray(int arr[], int size);
 int partition(int arr[], int low, int high);
-void quickSort(int arr[], int low, int high);
+void quickSort(int arr[], int low, int high, size_t size);
 
 /**
  * quick_sort - function recursiva
@@ -15,7 +15,7 @@ void quick_sort(int *array, size_t size)
 	int start = 0;
 	int end = size - 1;
 
-	quickSort(array, start, end);
+	quickSort(array, start, end, size);
 }
 
 /**
@@ -53,7 +53,6 @@ int partition(int arr[], int low, int high)
 		}
 	}
 	swap(&arr[i + 1], &arr[high]);
-	print_array(arr, high);
 	return (i + 1);
 }
 
@@ -62,15 +61,18 @@ int partition(int arr[], int low, int high)
  * @arr: array
  * @low: valor min
  * @high: valor high
+ * @size: tamano de arra
  */
-void quickSort(int arr[], int low, int high)
+void quickSort(int arr[], int low, int high, size_t size)
 {
 	if (low < high)
 	{
 		int pi = partition(arr, low, high);
 
-		quickSort(arr, low, pi - 1);
-		quickSort(arr, pi + 1, high);
+		print_array(arr, size);
+
+		quickSort(arr, low, pi - 1, size);
+		quickSort(arr, pi + 1, high, size);
 	}
 
 }

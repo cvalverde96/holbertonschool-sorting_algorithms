@@ -1,9 +1,8 @@
 #include "sort.h"
 
-void swap(int *a, int *b);
-void printArray(int arr[], int size);
-int partition(int arr[], int low, int high);
-void quickSort(int arr[], int low, int high, size_t size);
+void swap(int *a, int *b, int *array, size_t size);
+int partition(int arr[], int low, int high, int *array, size_t size);
+void quickSort(int arr[], int low, int high, int *array, size_t size);
 
 /**
  * quick_sort - function recursiva
@@ -15,19 +14,25 @@ void quick_sort(int *array, size_t size)
 	int start = 0;
 	int end = size - 1;
 
-	quickSort(array, start, end, size);
+	quickSort(array, start, end, array, size);
 }
 
 /**
  * swap - function para swap
  * @a: pointer to int
  * @b: pointer to b
+ * @array: array for printing
+ * @size: size of array for printing
  */
-void swap(int *a, int *b)
+void swap(int *a, int *b, int *array, size_t size)
 {
-	int t = *a;
-	*a = *b;
-	*b = t;
+	if (*a != *b)
+	{
+		int t = *a;
+		*a = *b;
+		*b = t;
+		print_array(array, size);
+	}
 }
 
 /**
@@ -35,10 +40,11 @@ void swap(int *a, int *b)
  * @arr: array
  * @low: valor low
  * @high: valor high
+ * @array: array for printing
+ * @size: size of array for printing
  * Return: int
  */
-
-int partition(int arr[], int low, int high)
+int partition(int arr[], int low, int high, int *array, size_t size)
 {
 	int pivot = arr[high];
 	int i = (low - 1);
@@ -49,10 +55,10 @@ int partition(int arr[], int low, int high)
 		if (arr[j] <= pivot)
 		{
 			i++;
-			swap(&arr[i], &arr[j]);
+			swap(&arr[i], &arr[j], array, size);
 		}
 	}
-	swap(&arr[i + 1], &arr[high]);
+	swap(&arr[i + 1], &arr[high], array, size);
 	return (i + 1);
 }
 
@@ -61,19 +67,16 @@ int partition(int arr[], int low, int high)
  * @arr: array
  * @low: valor min
  * @high: valor high
- * @size: tamano de arra
+ * @array: array for printing
+ * @size: size of array for printing
  */
-void quickSort(int arr[], int low, int high, size_t size)
+void quickSort(int arr[], int low, int high, int *array, size_t size)
 {
 	if (low < high)
 	{
-		int pi = partition(arr, low, high);
+		int pi = partition(arr, low, high, array, size);
 
-		print_array(arr, size);
-
-		quickSort(arr, low, pi - 1, size);
-		quickSort(arr, pi + 1, high, size);
+		quickSort(arr, low, pi - 1, array, size);
+		quickSort(arr, pi + 1, high, array, size);
 	}
-
 }
-
